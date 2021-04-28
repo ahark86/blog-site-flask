@@ -82,10 +82,17 @@ class CreateUserForm(FlaskForm):
 
 # Routes
 @app.route('/')
-def all_posts():
-    recent_posts = db.session.query(BlogPost).all()
+def recent_posts():
+    recent_posts = db.session.query(BlogPost).order_by(BlogPost.id.desc()).limit(3)
     all_tags = db.session.query(Tag).all()
-    return render_template('index.html', posts=recent_posts, all_tags=all_tags)
+    return render_template('index.html', posts=recent_posts, all_tags=all_tags, recent=True)
+
+
+@app.route('/all-posts')
+def all_posts():
+    all_posts = db.session.query(BlogPost).order_by(BlogPost.id.desc()).all()
+    all_tags = db.session.query(Tag).all()
+    return render_template('index.html', posts=all_posts, all_tags=all_tags, all=True)
 
 
 @app.route("/create-post", methods=['GET', 'POST'])
@@ -108,9 +115,15 @@ def new_post():
         db.session.add(new_post)
         db.session.commit()
 
-        return redirect(url_for('all_posts'))
+        return redirect(url_for('recent_posts'))
 
     return render_template('create-post.html', form=form)
+
+
+@app.route("/post/<int:post_id>")
+def show_post(post_id):
+    post_to_show = BlogPost.query.get(post_id)
+    return render_template("index.html", post=post_to_show, show=True)
 
 
 @app.route("/delete-post/<int:post_id>")
@@ -118,7 +131,7 @@ def delete_post(post_id):
     post_to_delete = BlogPost.query.get(post_id)
     db.session.delete(post_to_delete)
     db.session.commit()
-    return redirect(url_for("all_posts"))
+    return redirect(url_for("recent_posts"))
 
 
 @app.route("/edit-post/<int:post_id>", methods=['GET', 'POST'])
@@ -148,7 +161,7 @@ def edit_post(post_id):
 
         return redirect(url_for('all_posts'))
 
-    return render_template('edit-post.html', form=form)
+    return render_template('edit-post.html', form=form, post=post_to_edit)
 
 
 
