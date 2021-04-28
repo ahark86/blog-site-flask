@@ -2,15 +2,29 @@
 
     <main class="blog-standard">
         <div class="container">
+            {% if all %}
+            <h1 class="oleez-page-title wow fadeInUp">All Posts</h1>
+            {% elif recent %}
             <h1 class="oleez-page-title wow fadeInUp">Recent Posts</h1>
+            {% endif %}
             <div class="row">
                     <div class="col-md-8">
-                        {% for post in posts %}
+                        {% if show %}
                         <article class="blog-post wow fadeInUp">
                             <img src="{{ post.img_url }}" alt="blog post banner image" class="post-thumbnail">
                             <p class="post-date">{{ post.publish_date }}</p>
                             <p class="post-date">{{ post.author }}</p>
                             <h4 class="post-title">{{ post.title }} <a href="{{ url_for('delete_post', post_id=post.id) }}">❌</a> <a href="{{ url_for('edit_post', post_id=post.id) }}">✏️</a></h4>
+                            <p class="post-excerpt">{{ post.body }}</p>
+                            <a href="{{ url_for('recent_posts') }}" class="post-permalink">RETURN HOME</a>
+                        </article>
+                        {% endif %}
+                        {% for post in posts %}
+                        <article class="blog-post wow fadeInUp">
+                            <img src="{{ post.img_url }}" alt="blog post banner image" class="post-thumbnail">
+                            <p class="post-date">{{ post.publish_date }}</p>
+                            <p class="post-date">{{ post.author }}</p>
+                            <h4 class="post-title"><a href="{{ url_for('show_post', post_id=post.id) }}">{{ post.title }}</a> <a href="{{ url_for('delete_post', post_id=post.id) }}">❌</a> <a href="{{ url_for('edit_post', post_id=post.id) }}">✏️</a></h4>
                             <p class="post-excerpt">{{ post.body }}</p>
                             <a href="#!" class="post-permalink">READ MORE</a>
                         </article>
