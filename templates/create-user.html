@@ -1,0 +1,42 @@
+{% include "header.html" %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+<body>
+ <main class="contact-page">
+        <div class="container">
+            <h1 class="oleez-page-title wow fadeInUp">Create Post</h1>
+            <div class="row">
+                <div class="col-12 wow fadeInRight">
+                    <form class="oleez-contact-form" action="{{ url_for('new_post') }}" method="post">
+                        {{ wtf.form_field(form.title) }}
+                        {{ wtf.form_field(form.subtitle) }}
+                        {{ wtf.form_field(form.img_url) }}
+                        {{ wtf.form_field(form.body) }}
+                        {{ wtf.form_field(form.submit, button_map={"submit": "primary"}, novalidate=True) }}
+<!--                        <div class="form-group">-->
+<!--                            <input type="text" class="oleez-input" id="fullName" name="title" required>-->
+<!--                            <label for="fullName">Post Title</label>-->
+<!--                        </div>-->
+<!--                        <div class="form-group">-->
+<!--                            <input type="text" class="oleez-input" id="fullName" name="subtitle" required>-->
+<!--                            <label for="fullName">Post Subtitle</label>-->
+<!--                        </div>-->
+<!--                        <div class="form-group">-->
+<!--                            <input type="text" class="oleez-input" id="fullName" name="img_url" required>-->
+<!--                            <label for="fullName">Post Image URL</label>-->
+<!--                        </div>-->
+<!--                        <div class="form-group">-->
+<!--                            <label for="message">Post Body</label>-->
+<!--                            <textarea name="body" id="message" rows="40" class="oleez-textarea" required></textarea>-->
+<!--                        </div>-->
+<!--                        <button type="submit" class="btn btn-submit">Post</button>-->
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+
+{% include "footer.html" %}
+
+</html>
